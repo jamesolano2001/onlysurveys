@@ -7,7 +7,7 @@ import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 
 
-export default function EditScreenInfo({ path }: { path: string }) {
+export default function EditScreenInfo({ path }) {
   return (
     <View>
       <View style={styles.getStartedContainer}>
