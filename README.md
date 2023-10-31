@@ -1,8 +1,12 @@
-# React + Vite
+1. Download nodejs
+Goto repo cmd type: npm i
+2. Phone download Expo App
+3. If mac install watchman
+4. Npm run android/ios
+Ios need macbook with xcode
+Android can use android studio emulator or phone connected with adb
+5. If none can use web with npm run web
+If possible use yarn to install packages
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Packages used:
+1. [rn-tinder-card](https://github.com/Skipperlla/rn-tinder-card)
