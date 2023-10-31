@@ -7,9 +7,9 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile Page</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Text>Name: Elon Musk <br/>
       Email: abc@gmail.com<br/></Text>
+      <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" />
     </View>
   );
 }
