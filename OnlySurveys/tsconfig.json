@@ -8,5 +8,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/(tabs)/_layout.js", "app/_layout.js", "app/[...missing].js", "app/modal.js", "components/EditScreenInfo.js"  ]
+, "app/(tabs)/_layout.js", "app/_layout.js", "app/[...missing].js", "app/modal.js", "components/EditScreenInfo.js", "app/(tabs)/chat.js", "app/(tabs)/fav.js", "app/(tabs)/home.js", "app/(tabs)/profile.js"  ]
 }

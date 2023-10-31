@@ -3,11 +3,13 @@ import { StyleSheet } from 'react-native';
 import EditScreenInfo from '../../components/EditScreenInfo';
 import { Text, View } from '../../components/Themed';
 
-export default function TabOneScreen() {
+export default function ProfileScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Favourites</Text>
+      <Text style={styles.title}>Profile Page</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <Text>Name: Elon Musk <br/>
+      Email: abc@gmail.com<br/></Text>
     </View>
   );
 }
