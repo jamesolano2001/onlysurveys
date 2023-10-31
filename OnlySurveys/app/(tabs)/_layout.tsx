@@ -28,7 +28,7 @@ export default function TabLayout() {
         name="fav"
         options={{
           title: '',
-          tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="heart" color="#8AC83F" />,
           // headerRight: () => (
           //   <Link href="/modal" asChild>
           //     <Pressable>
@@ -49,28 +49,28 @@ export default function TabLayout() {
         name="chat"
         options={{
           title: '',
-          tabBarIcon: ({ color }) => <Entypo name="chat" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <Entypo name="chat" size={24} color="#8AC83F" />,
         }}
       />
       <Tabs.Screen
         name="home" 
         options={{
           title: '',
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color="#8AC83F" />,
         }}
       />
       <Tabs.Screen
         name="search"
         options={{
           title: '',
-          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="search" color="#8AC83F" />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: '',
-          tabBarIcon: ({ color }) => <Ionicons name="person-circle-outline" size={32} color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="person-circle-outline" size={32} color="#8AC83F" />,
         }}
       />
 
