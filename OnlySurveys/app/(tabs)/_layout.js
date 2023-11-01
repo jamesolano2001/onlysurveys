@@ -1,7 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
 import { Pressable, useColorScheme } from 'react-native';
-import { Entypo } from '@expo/vector-icons'; 
+import { AntDesign, Entypo } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons';
 
 import Colors from '../../constants/Colors';
@@ -21,6 +21,13 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
       }}>
+      <Tabs.Screen
+        name="login"
+        options={{
+          title: '',
+          tabBarIcon: ({ color }) => <AntDesign name="login" size={30} color="#8AC83F" />,
+        }}
+      />
       <Tabs.Screen
         name="fav"
         options={{
