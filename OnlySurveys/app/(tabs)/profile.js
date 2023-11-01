@@ -6,15 +6,15 @@ import EditScreenInfo from '../../components/EditScreenInfo';
 import { Text, View } from '../../components/Themed';
 
 export default function ProfileScreen() {
-  var name = "Elon Musk";
-  const [username, setUsername] = useState('Elon');
+  const [username, setUsername] = useState();
+  const [editUsername, setEditUsername] = useState();
   var email = "abc@connect.hku.hk"
 
+  // var for modal
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const containerStyle = {backgroundColor: "#8AC83F", padding: 20};
-  var name = "";
 
   return (
     <View style={styles.container}>
@@ -28,12 +28,12 @@ export default function ProfileScreen() {
       <Button mode='contained' buttonColor="#8AC83F" onPress={showModal}>Edit info</Button>      
       {/* Modal for editing personal info */}
       <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-          <TextInput label="Username" onChangeText={username => setUsername(username)} value={username}/>
+          <TextInput label="Username" onChangeText={editUsername => setEditUsername(editUsername)} value={editUsername}/>
 
         {/* cancel and save buttons, not functional yet, currently rely on changing the var itself upon typing */}
         <View style={styles.buttons}>
-          <Button mode='contained' buttonColor="red" onPress={hideModal}>Cancel</Button>
-          <Button mode='contained' buttonColor="gray" onPress={hideModal}>Save</Button>
+          <Button mode='contained' buttonColor="red" onPress={() => {setEditUsername(username); hideModal();}}>Cancel</Button>
+          <Button mode='contained' buttonColor="grey" onPress={() => {setUsername(editUsername); hideModal();}}>Save</Button>
         </View>
       </Modal>
 
