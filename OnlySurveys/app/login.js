@@ -5,9 +5,10 @@ import {
   View,
   Image,
   TextInput,
-  Button,
+  // Button,
   TouchableOpacity,
 } from "react-native";
+import { Button } from "react-native-paper";
 
 export default function App() {
   const [email, setEmail] = useState("");
@@ -33,9 +34,7 @@ export default function App() {
           onChangeText={(password) => setPassword(password)}
         /> 
       </View> 
-      <TouchableOpacity style={styles.loginBtn}>
-        <Text style={styles.loginText}>LOGIN</Text> 
-      </TouchableOpacity> 
+      <Button mode='contained' buttonColor="#8AC83F" onPress={() => navigation.navigate('(tabs)/home')}>Login</Button>
     </View> 
   );
 }
