@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { ImageBackground, Text, View } from 'react-native'
+import React, { useState, useRef, useEffect } from 'react'
+import { Animated, ImageBackground, Text, View } from 'react-native'
 import TinderCard from 'react-tinder-card'
+import { Octicons } from '@expo/vector-icons'; 
 
 const db = [
   {
@@ -68,6 +69,29 @@ function Simple() {
     console.log(name + ' left the screen!')
   }
 
+  const fadeAnimation = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    // if (lastDirection === 'left') {
+      // Fade In Animation
+      fadeAnimation.setValue(0);
+      console.log('fadeAnimation: ', fadeAnimation )
+      Animated.timing(fadeAnimation, {
+        toValue: 1,
+        duration: 5000, // Adjust the duration as per your preference
+        useNativeDriver: true,
+      }).start();
+      // console.log('fadeAnimation: ', fadeAnimation )
+    // } 
+    // else {
+    //   // Fade Out Animation
+    //   Animated.timing(fadeAnimation, {
+    //     toValue: 0,
+    //     duration: 1000, // Adjust the duration as per your preference
+    //     useNativeDriver: true,
+    //   }).start();
+    // }
+  }, [lastDirection, fadeAnimation]);
+
   return (
     <View style={styles.container}>
       {/* <Text style={styles.header}>React Native Tinder Card</Text> */}
@@ -91,6 +115,8 @@ function Simple() {
         )}
       </View>
       {/* {lastDirection ? <Text style={styles.infoText}>You swiped {lastDirection}</Text> : <Text style={styles.infoText} />} */}
+      {lastDirection === 'left' ? <Octicons style={{opacity: fadeAnimation.current}} name="star-fill" size={64} color="#8AC83F" />: <Text/>}
+      {/* {lastDirection === 'left' && (<Octicons style={{opacity: fadeAnimation}} name="star-fill" size={64} color="#8AC83F" />)} */}
     </View>
   )
 }
@@ -152,12 +178,21 @@ const styles = {
     color: '#8AC83F',
   },
   infoText: {
-    height: 28,
+    // height: 28,
     justifyContent: 'center',
     display: 'flex',
-    zIndex: -100,
+    // alignItems: 'baseline',
+
+    // position: 'absolute',
+    // bottom: 20,
+    // zIndex: -100,
     color: '#8AC83F',
-  }
+  },
+  star: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    // position: 'absolute',
+  },
 }
 
 export default Simple
