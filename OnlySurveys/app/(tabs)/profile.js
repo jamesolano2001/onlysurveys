@@ -28,7 +28,7 @@ export default function ProfileScreen() {
       <Button mode='contained' buttonColor="#8AC83F" onPress={showModal}>Edit info</Button>      
       {/* Modal for editing personal info */}
       <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-          <TextInput label="Username" onChangeText={editUsername => setEditUsername(editUsername)} value={editUsername}/>
+          <TextInput label="Username" style={styles.input} onChangeText={editUsername => setEditUsername(editUsername)} value={editUsername}/>
 
         {/* cancel and save buttons, not functional yet, currently rely on changing the var itself upon typing */}
         <View style={styles.buttons}>
@@ -61,5 +61,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',   // make the cancel and save buttons on the same row
     marginTop: 10,
     justifyContent: 'space-between',
-  }
+  },
+  input: {
+    // width: 300,
+    // height: 50,
+    margin: 10,
+    backgroundColor: "white",
+  },
 });
