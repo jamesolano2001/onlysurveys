@@ -10,14 +10,11 @@ export default function FavScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Favourites</Text>
       <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" />
-<<<<<<< HEAD
 			<View></View>
       {array.map((item) => {
         return <Button mode='contained' key={item} style={styles.buttons} buttonColor="#8AC83F">{item}</Button>
       })}
 
-=======
->>>>>>> main
     </View>
   );
 }

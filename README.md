@@ -11,4 +11,4 @@ Android can use android studio emulator or phone connected with adb
 If possible use yarn to install packages
 
 Packages used:
-1. [react-tinder-card](https://github.com/3DJakob/react-tinder-card)
+1. [rn-tinder-card](https://github.com/Skipperlla/rn-tinder-card)
