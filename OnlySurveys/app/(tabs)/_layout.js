@@ -21,13 +21,13 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
       }}>
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="login"
         options={{
           title: '',
           tabBarIcon: ({ color }) => <AntDesign name="login" size={30} color="#8AC83F" />,
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="fav"
         options={{
