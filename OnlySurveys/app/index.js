@@ -4,11 +4,11 @@ import {
   Text,
   View,
   Image,
-  TextInput,
+  // TextInput,
   // Button,
   TouchableOpacity,
 } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, TextInput } from "react-native-paper";
 
 export default function App() {
   const [email, setEmail] = useState("");
@@ -16,30 +16,14 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={require("../assets/images/logo.png")} /> 
-      {/* <StatusBar style="auto" /> */}
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Email"
-          placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
-        /> 
-      </View> 
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Password"
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
-        /> 
-      </View> 
+          <TextInput label="Username" style={styles.input} onChangeText={email => setEmail(email)} value={email}/>
+          <TextInput label="Password" secureTextEntry={true} style={styles.input} onChangeText={password => setPassword(password)} value={password}/>
       <Button mode='contained' buttonColor="#8AC83F" onPress={() => navigation.navigate('(tabs)/home')}>Login</Button>
     </View> 
   );
 }
-const styles = StyleSheet.create({
 
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 0,
@@ -82,5 +66,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 40,
     backgroundColor: "#8AC83F",
+  },
+  input: {
+    width: 300,
+    height: 50,
+    margin: 10,
+    backgroundColor: "white",
   },
 });
