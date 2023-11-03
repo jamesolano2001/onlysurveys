@@ -4,7 +4,7 @@ import { ImageBackground, Text, View } from 'react-native'
 import TinderCard from 'react-tinder-card'
 import { Octicons } from '@expo/vector-icons'; 
 import Animated, { BounceIn, FadeIn, FadeOut } from 'react-native-reanimated';
-import { List } from 'react-native-paper';
+import { List, Snackbar } from 'react-native-paper';
 import { MaterialIcons, MaterialCommunityIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
 
 const db = [
@@ -96,14 +96,22 @@ function Simple() {
   //   // }
   // }, [fadeAnimation]);
 
+  const [visible, setVisible] = React.useState(false);
+  const onShowSnackBar = () => {
+    setVisible(true); setTimeout(() => {
+    setVisible(false);
+  }, 2000);};
+  const onDismissSnackBar = () => setVisible(false);
+
   return (
     <View style={styles.container}>
       {/* <Text style={styles.header}>React Native Tinder Card</Text> */}
       <Text style={styles.title} lightColor="black" darkColor="white">Home</Text>
-      <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" />
+      {/* <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" /> */}
+      <Text lightColor="black" darkColor="white">Swipe left to favourite</Text>
       <View style={styles.cardContainer}>
         {characters.map((character) =>
-          <TinderCard key={character.name} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}>
+          <TinderCard key={character.name} onSwipe={(dir) => {swiped(dir, character.name); onShowSnackBar()}} onCardLeftScreen={() => outOfFrame(character.name)}>
             <View style={styles.card}>
               <ImageBackground style={styles.cardImage} source={character.img}>
               <Text style={{fontSize: 24}}>{character.name}</Text>
@@ -118,12 +126,30 @@ function Simple() {
           </TinderCard>
         )}
       </View>
+      {/* {lastDirection === 'left' ? onToggleSnackBar(): onDismissSnackBar()} */}
       {/* <Animated.View key={'uniqueKey'} entering={BounceIn.duration(5000)} ><Text>dsfghjkl</Text></Animated.View> */}
       {/* {lastDirection ? <Text style={styles.infoText}>You swiped {lastDirection}</Text> : <Text style={styles.infoText} />} */}
       {/* {lastDirection === 'left' ? <Octicons style={{opacity: fadeAnimation.current}} name="star-fill" size={64} color="#8AC83F" />: <Text/>} */}
-      {lastDirection === 'left' ? <Animated.View entering={FadeIn.duration(5000)} exiting={FadeOut.duration(5000)} style={styles.star}><Octicons  name="star-fill" size={64} color="#8AC83F" /></Animated.View>: <Text/>}
+      {/* {lastDirection === 'left' ? <Animated.View entering={FadeIn.duration(5000)} exiting={FadeOut.duration(5000)} style={styles.star}><Octicons  name="star-fill" size={64} color="#8AC83F" /></Animated.View>: <Text/>} */}
       {/* {lastDirection === 'left' ? <Animated.View style={{opacity: fadeAnimation}}><Octicons  name="star-fill" size={64} color="#8AC83F" /></Animated.View>: <Text/>} */}
       {/* {lastDirection === 'left' && (<Octicons style={{opacity: fadeAnimation}} name="star-fill" size={64} color="#8AC83F" />)} */}
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: 'x',
+          onPress: () => {
+            onDismissSnackBar
+          },
+        }}
+        // style={{colour: "white"}}
+        // theme={{ colors: { primary: 'green' } }}
+        style={{backgroundColor: '#8AC83F'}}
+        // theme={{ colors: { accent: 'red' }}}
+      >
+        {/* Hey there! I'm a Snackbar. */}
+      {lastDirection === 'left' ? <Text>Added to Favourites!</Text>: <Text>Not interested</Text>}
+      </Snackbar>
     </View>
   )
 }
