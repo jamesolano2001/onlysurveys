@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { ImageBackground, Text, View } from 'react-native'
-// import { Animated } from 'react-native'
 import TinderCard from 'react-tinder-card'
-import { Octicons } from '@expo/vector-icons'; 
-import Animated, { BounceIn, FadeIn, FadeOut } from 'react-native-reanimated';
 import { List, Snackbar } from 'react-native-paper';
 import { MaterialIcons, MaterialCommunityIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
 
@@ -73,29 +70,6 @@ function Simple() {
     console.log(name + ' left the screen!')
   }
 
-  // const fadeAnimation = useRef(new Animated.Value(0)).current;
-  // useEffect(() => {
-  //   // if (lastDirection === 'left') {
-  //     // Fade In Animation
-  //     fadeAnimation.setValue(0);
-  //     console.log('fadeAnimation: ', fadeAnimation )
-  //     Animated.timing(fadeAnimation, {
-  //       toValue: 1,
-  //       duration: 5000, // Adjust the duration as per your preference
-  //       useNativeDriver: true,
-  //     }).start();
-  //     // console.log('fadeAnimation: ', fadeAnimation )
-  //   // } 
-  //   // else {
-  //   //   // Fade Out Animation
-  //     Animated.timing(fadeAnimation, {
-  //       toValue: 0,
-  //       duration: 1000, // Adjust the duration as per your preference
-  //       useNativeDriver: true,
-  //     }).start();
-  //   // }
-  // }, [fadeAnimation]);
-
   const [visible, setVisible] = React.useState(false);
   const onShowSnackBar = () => {
     setVisible(true); setTimeout(() => {
@@ -105,7 +79,6 @@ function Simple() {
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.header}>React Native Tinder Card</Text> */}
       <Text style={styles.title} lightColor="black" darkColor="white">Home</Text>
       {/* <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" /> */}
       <Text lightColor="black" darkColor="white">Swipe left to favourite</Text>
@@ -126,13 +99,6 @@ function Simple() {
           </TinderCard>
         )}
       </View>
-      {/* {lastDirection === 'left' ? onToggleSnackBar(): onDismissSnackBar()} */}
-      {/* <Animated.View key={'uniqueKey'} entering={BounceIn.duration(5000)} ><Text>dsfghjkl</Text></Animated.View> */}
-      {/* {lastDirection ? <Text style={styles.infoText}>You swiped {lastDirection}</Text> : <Text style={styles.infoText} />} */}
-      {/* {lastDirection === 'left' ? <Octicons style={{opacity: fadeAnimation.current}} name="star-fill" size={64} color="#8AC83F" />: <Text/>} */}
-      {/* {lastDirection === 'left' ? <Animated.View entering={FadeIn.duration(5000)} exiting={FadeOut.duration(5000)} style={styles.star}><Octicons  name="star-fill" size={64} color="#8AC83F" /></Animated.View>: <Text/>} */}
-      {/* {lastDirection === 'left' ? <Animated.View style={{opacity: fadeAnimation}}><Octicons  name="star-fill" size={64} color="#8AC83F" /></Animated.View>: <Text/>} */}
-      {/* {lastDirection === 'left' && (<Octicons style={{opacity: fadeAnimation}} name="star-fill" size={64} color="#8AC83F" />)} */}
       <Snackbar
         visible={visible}
         onDismiss={onDismissSnackBar}
@@ -142,12 +108,8 @@ function Simple() {
             onDismissSnackBar
           },
         }}
-        // style={{colour: "white"}}
-        // theme={{ colors: { primary: 'green' } }}
         style={{backgroundColor: '#8AC83F'}}
-        // theme={{ colors: { accent: 'red' }}}
       >
-        {/* Hey there! I'm a Snackbar. */}
       {lastDirection === 'left' ? <Text>Added to Favourites!</Text>: <Text>Not interested</Text>}
       </Snackbar>
     </View>
@@ -177,9 +139,7 @@ const styles = {
   },
   cardContainer: {
     width: '85%',
-    // maxWidth: 260,
     height: 300,
-    // backgroundColor: "#8AC83F",
   },
   card: {
     position: 'absolute',
@@ -189,7 +149,6 @@ const styles = {
     // set border width to 2px
     borderWidth: 3,
     width: '100%',
-    // maxWidth: '95%',
     height: 500,
     shadowColor: '#8AC83F',
     shadowOpacity: 0.2,
@@ -204,8 +163,6 @@ const styles = {
     borderRadius: 20,
     position: 'relative',
     left: 10,
-    // alignItems: 'center',
-    // justifyContent: 'left',
     overflow: 'auto',
   },
   cardTitle: {
@@ -215,14 +172,8 @@ const styles = {
     color: '#8AC83F',
   },
   infoText: {
-    // height: 28,
     justifyContent: 'center',
     display: 'flex',
-    // alignItems: 'baseline',
-
-    // position: 'absolute',
-    // bottom: 20,
-    // zIndex: -100,
     color: '#8AC83F',
   },
   star: {
