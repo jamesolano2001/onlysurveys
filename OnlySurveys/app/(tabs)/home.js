@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { ImageBackground, Text, View } from 'react-native'
 import TinderCard from 'react-tinder-card'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { List, Snackbar } from 'react-native-paper';
 import { MaterialIcons, MaterialCommunityIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
 
@@ -14,6 +15,7 @@ const db = [
     unit: 'Department of Psychology',
     hrec: 'EA1000000',
     contact: ['Mr AT', '13728943'],
+    link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
   },
   {
     name: 'Experiment 2',
@@ -24,6 +26,7 @@ const db = [
     unit: 'School of English',
     hrec: 'EA2000000',
     contact: ['Mr Inno Wing', '10111213'],
+    link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
   },
   {
     name: 'Experiment 3',
@@ -34,6 +37,7 @@ const db = [
     unit: 'Department of Linguistics',
     hrec: 'EA3000000',
     contact: ['Mr J Lee', '56781234'],
+    link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
   },
   {
     name: 'Experiment 4',
@@ -44,6 +48,7 @@ const db = [
     unit: 'Faculty of Education',
     hrec: 'EA4000000',
     contact: ['Ms qwerty', '09876543'],
+    link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
   },
   {
     name: 'Experiment 5',
@@ -54,11 +59,12 @@ const db = [
     unit: 'Department of Linguistics',
     hrec: 'EA5000000',
     contact: ['Ms Chi Wah', '12345678'],
+    link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
   }
 ]
 
 function Simple() {
-  const characters = db
+  // const datas = db
   const [lastDirection, setLastDirection] = useState()
 
   const swiped = (direction, nameToDelete) => {
@@ -77,23 +83,71 @@ function Simple() {
   }, 2000);};
   const onDismissSnackBar = () => setVisible(false);
 
+  _storeData = async (data) => {
+    try {
+      await AsyncStorage.setItem(
+        data.name,
+        // "Experiment 1"
+        JSON.stringify(data),
+      );
+      // alert(JSON.stringify(testData))
+      // console.log('first', first)
+    } catch (error) {
+      // Error saving data
+      // console.log('Error saving data')
+      alert(error)
+      // console.log('JSON.stringify(testData', JSON.stringify(testData))
+    }
+  };
+
+  _retrieveData = async () => {
+    try {
+      var value = await AsyncStorage.getItem('Experiment 1');
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+        // alert(value)
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.log('Error retrieving data')
+      alert(error)
+    }
+  };
+
+  _removeData = async (key, dir) => { 
+    if (dir === 'left') {
+    }
+    else {
+      try {
+        await AsyncStorage.removeItem(key);
+        // return true;
+        // alert(dir)
+      }
+      catch(error) {
+        // return false;
+        alert(error)
+      }}
+};
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title} lightColor="black" darkColor="white">Home</Text>
       {/* <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" /> */}
       <Text lightColor="black" darkColor="white">Swipe left to favourite</Text>
       <View style={styles.cardContainer}>
-        {characters.map((character) =>
-          <TinderCard key={character.name} onSwipe={(dir) => {swiped(dir, character.name); onShowSnackBar()}} onCardLeftScreen={() => outOfFrame(character.name)}>
+        {db.map((data) =>
+          <TinderCard key={data.name} onSwipe={(dir) => {swiped(dir, data.name); onShowSnackBar(); _storeData(data);_removeData(data.name, dir);}} onCardLeftScreen={() => {outOfFrame(data.name); }}>
             <View style={styles.card}>
-              <ImageBackground style={styles.cardImage} source={character.img}>
-              <Text style={{fontSize: 24}}>{character.name}</Text>
-                <List.Item title="Description" description={character.description} left={props => <MaterialIcons name="description" size={24} color="#8AC83F" />}/>
-                <List.Item title="Eligibility" description={character.eligibility} left={props => <MaterialCommunityIcons name="sticker-check" size={24} color="#8AC83F" />}/>
-                <List.Item title="Reward" description={character.reward} left={props => <Ionicons name="md-wallet" size={24} color="#8AC83F" />}/>
-                <List.Item title="Offering Faculty/Department" description={character.unit} left={props => <MaterialCommunityIcons name="offer" size={24} color="#8AC83F" />}/>
-                <List.Item title="HREC" description={character.hrec} left={props => <FontAwesome name="folder" size={24} color="#8AC83F" />}/>
-                <List.Item title="Contact" description={character.contact} left={props => <MaterialCommunityIcons name="contacts" size={24} color="#8AC83F" />}/>
+              <ImageBackground style={styles.cardImage} source={data.img}>
+              <Text style={{fontSize: 24}}>{data.name}</Text>
+                <List.Item title="Description" description={data.description} left={props => <MaterialIcons name="description" size={24} color="#8AC83F" />}/>
+                <List.Item title="Eligibility" description={data.eligibility} left={props => <MaterialCommunityIcons name="sticker-check" size={24} color="#8AC83F" />}/>
+                <List.Item title="Reward" description={data.reward} left={props => <Ionicons name="md-wallet" size={24} color="#8AC83F" />}/>
+                <List.Item title="Offering Faculty/Department" description={data.unit} left={props => <MaterialCommunityIcons name="offer" size={24} color="#8AC83F" />}/>
+                <List.Item title="HREC" description={data.hrec} left={props => <FontAwesome name="folder" size={24} color="#8AC83F" />}/>
+                <List.Item title="Contact" description={data.contact} left={props => <MaterialCommunityIcons name="contacts" size={24} color="#8AC83F" />}/>
+                {/* <List.Item title="Link" description={data.link} left={props => <MaterialCommunityIcons name="contacts" size={24} color="#8AC83F" />}/> */}
               </ImageBackground>
             </View>
           </TinderCard>
@@ -112,6 +166,7 @@ function Simple() {
       >
       {lastDirection === 'left' ? <Text>Added to Favourites!</Text>: <Text>Not interested</Text>}
       </Snackbar>
+      <Text style={{zIndex: -999, color: '#8AC83F', width:"80%"}} >No more surveys!{"\n"}Check out Favourites tab to view saved surveys,{"\n"}or Search tab to discover more surveys.</Text>
     </View>
   )
 }
@@ -131,6 +186,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+    // height: '100%',
   },
   header: {
     color: '#000',
