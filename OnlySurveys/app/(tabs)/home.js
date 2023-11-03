@@ -1,7 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Animated, ImageBackground, Text, View } from 'react-native'
+import { ImageBackground, Text, View } from 'react-native'
+// import { Animated } from 'react-native'
 import TinderCard from 'react-tinder-card'
 import { Octicons } from '@expo/vector-icons'; 
+import Animated, { BounceIn, FadeIn, FadeOut } from 'react-native-reanimated';
+import { List } from 'react-native-paper';
+import { MaterialIcons, MaterialCommunityIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
 
 const db = [
   {
@@ -69,28 +73,28 @@ function Simple() {
     console.log(name + ' left the screen!')
   }
 
-  const fadeAnimation = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    // if (lastDirection === 'left') {
-      // Fade In Animation
-      fadeAnimation.setValue(0);
-      console.log('fadeAnimation: ', fadeAnimation )
-      Animated.timing(fadeAnimation, {
-        toValue: 1,
-        duration: 5000, // Adjust the duration as per your preference
-        useNativeDriver: true,
-      }).start();
-      // console.log('fadeAnimation: ', fadeAnimation )
-    // } 
-    // else {
-    //   // Fade Out Animation
-    //   Animated.timing(fadeAnimation, {
-    //     toValue: 0,
-    //     duration: 1000, // Adjust the duration as per your preference
-    //     useNativeDriver: true,
-    //   }).start();
-    // }
-  }, [lastDirection, fadeAnimation]);
+  // const fadeAnimation = useRef(new Animated.Value(0)).current;
+  // useEffect(() => {
+  //   // if (lastDirection === 'left') {
+  //     // Fade In Animation
+  //     fadeAnimation.setValue(0);
+  //     console.log('fadeAnimation: ', fadeAnimation )
+  //     Animated.timing(fadeAnimation, {
+  //       toValue: 1,
+  //       duration: 5000, // Adjust the duration as per your preference
+  //       useNativeDriver: true,
+  //     }).start();
+  //     // console.log('fadeAnimation: ', fadeAnimation )
+  //   // } 
+  //   // else {
+  //   //   // Fade Out Animation
+  //     Animated.timing(fadeAnimation, {
+  //       toValue: 0,
+  //       duration: 1000, // Adjust the duration as per your preference
+  //       useNativeDriver: true,
+  //     }).start();
+  //   // }
+  // }, [fadeAnimation]);
 
   return (
     <View style={styles.container}>
@@ -102,20 +106,23 @@ function Simple() {
           <TinderCard key={character.name} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}>
             <View style={styles.card}>
               <ImageBackground style={styles.cardImage} source={character.img}>
-                <Text style={styles.cardTitle}>{character.name}</Text>
-                <Text >Description: {character.description}</Text>
-                <Text >Eligibility: {character.eligibility}</Text>
-                <Text >Reward: {character.reward}</Text>
-                <Text >Offering Faculty/Department: {character.unit}</Text>
-                <Text >HREC: {character.hrec}</Text>
-                <Text >Contact: {character.contact[0]} - {character.contact[1]}</Text>
+              <Text style={{fontSize: 24}}>{character.name}</Text>
+                <List.Item title="Description" description={character.description} left={props => <MaterialIcons name="description" size={24} color="#8AC83F" />}/>
+                <List.Item title="Eligibility" description={character.eligibility} left={props => <MaterialCommunityIcons name="sticker-check" size={24} color="#8AC83F" />}/>
+                <List.Item title="Reward" description={character.reward} left={props => <Ionicons name="md-wallet" size={24} color="#8AC83F" />}/>
+                <List.Item title="Offering Faculty/Department" description={character.unit} left={props => <MaterialCommunityIcons name="offer" size={24} color="#8AC83F" />}/>
+                <List.Item title="HREC" description={character.hrec} left={props => <FontAwesome name="folder" size={24} color="#8AC83F" />}/>
+                <List.Item title="Contact" description={character.contact} left={props => <MaterialCommunityIcons name="contacts" size={24} color="#8AC83F" />}/>
               </ImageBackground>
             </View>
           </TinderCard>
         )}
       </View>
+      {/* <Animated.View key={'uniqueKey'} entering={BounceIn.duration(5000)} ><Text>dsfghjkl</Text></Animated.View> */}
       {/* {lastDirection ? <Text style={styles.infoText}>You swiped {lastDirection}</Text> : <Text style={styles.infoText} />} */}
-      {lastDirection === 'left' ? <Octicons style={{opacity: fadeAnimation.current}} name="star-fill" size={64} color="#8AC83F" />: <Text/>}
+      {/* {lastDirection === 'left' ? <Octicons style={{opacity: fadeAnimation.current}} name="star-fill" size={64} color="#8AC83F" />: <Text/>} */}
+      {lastDirection === 'left' ? <Animated.View entering={FadeIn.duration(5000)} exiting={FadeOut.duration(5000)} style={styles.star}><Octicons  name="star-fill" size={64} color="#8AC83F" /></Animated.View>: <Text/>}
+      {/* {lastDirection === 'left' ? <Animated.View style={{opacity: fadeAnimation}}><Octicons  name="star-fill" size={64} color="#8AC83F" /></Animated.View>: <Text/>} */}
       {/* {lastDirection === 'left' && (<Octicons style={{opacity: fadeAnimation}} name="star-fill" size={64} color="#8AC83F" />)} */}
     </View>
   )
@@ -125,7 +132,6 @@ const styles = {
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: "white",
   },
   separator: {
     marginVertical: 30,
@@ -170,6 +176,11 @@ const styles = {
     height: '100%',
     overflow: 'hidden',
     borderRadius: 20,
+    position: 'relative',
+    left: 10,
+    // alignItems: 'center',
+    // justifyContent: 'left',
+    overflow: 'auto',
   },
   cardTitle: {
     position: 'absolute',
@@ -191,7 +202,8 @@ const styles = {
   star: {
     alignItems: 'center',
     justifyContent: 'center',
-    // position: 'absolute',
+    position: 'relative',
+    bottom: 0,
   },
 }
 
