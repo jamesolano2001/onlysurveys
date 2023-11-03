@@ -162,7 +162,7 @@ function Simple() {
             onDismissSnackBar
           },
         }}
-        style={{backgroundColor: '#8AC83F'}}
+        style={{backgroundColor: '#8AC83F', bottom: -260}}
       >
       {lastDirection === 'left' ? <Text>Added to Favourites!</Text>: <Text>Not interested</Text>}
       </Snackbar>
