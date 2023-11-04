@@ -16,6 +16,7 @@ const db = [
     hrec: 'EA1000000',
     contact: ['Mr AT', '13728943'],
     link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
+    fav: false,
   },
   {
     name: 'Experiment 2',
@@ -27,6 +28,7 @@ const db = [
     hrec: 'EA2000000',
     contact: ['Mr Inno Wing', '10111213'],
     link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
+    fav: false,
   },
   {
     name: 'Experiment 3',
@@ -38,6 +40,7 @@ const db = [
     hrec: 'EA3000000',
     contact: ['Mr J Lee', '56781234'],
     link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
+    fav: false,
   },
   {
     name: 'Experiment 4',
@@ -49,6 +52,7 @@ const db = [
     hrec: 'EA4000000',
     contact: ['Ms qwerty', '09876543'],
     link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
+    fav: false,
   },
   {
     name: 'Experiment 5',
@@ -60,6 +64,7 @@ const db = [
     hrec: 'EA5000000',
     contact: ['Ms Chi Wah', '12345678'],
     link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
+    fav: false,
   }
 ]
 
@@ -73,7 +78,7 @@ function Simple() {
   }
 
   const outOfFrame = (name) => {
-    console.log(name + ' left the screen!')
+    // console.log(name + ' left the screen!')
   }
 
   const [visible, setVisible] = React.useState(false);
@@ -83,49 +88,68 @@ function Simple() {
   }, 2000);};
   const onDismissSnackBar = () => setVisible(false);
 
+  // store data to asyncstorage
   _storeData = async (data) => {
     try {
       await AsyncStorage.setItem(
         data.name,
-        // "Experiment 1"
         JSON.stringify(data),
       );
-      // alert(JSON.stringify(testData))
-      // console.log('first', first)
     } catch (error) {
       // Error saving data
-      // console.log('Error saving data')
-      alert(error)
-      // console.log('JSON.stringify(testData', JSON.stringify(testData))
-    }
-  };
-
-  _retrieveData = async () => {
-    try {
-      var value = await AsyncStorage.getItem('Experiment 1');
-      if (value !== null) {
-        // We have data!!
-        console.log(value);
-        // alert(value)
-      }
-    } catch (error) {
-      // Error retrieving data
-      console.log('Error retrieving data')
       alert(error)
     }
   };
 
+  // retrieve data from asyncstorage
+  // _retrieveData = async (key) => {
+  //   try {
+  //     var value = await AsyncStorage.getItem(key);
+  //     if (value !== null) {
+  //       console.log(value);
+  //     }
+  //   } catch (error) {
+  //     // Error retrieving data
+  //     console.log('Error retrieving data')
+  //     alert(error)
+  //   }
+  // };
+
+  // update data in asyncstorage, remove if swiped right, set fav to true if swiped left
   _removeData = async (key, dir) => { 
     if (dir === 'left') {
+      try {
+        // get current item
+        let curitem = await AsyncStorage.getItem(key);        
+        // set fav to true
+        let curobj = JSON.parse(curitem);
+        curobj['fav'] = true;
+        // store updated item
+        await AsyncStorage.setItem(
+          key,
+          JSON.stringify(curobj),
+        );
+      }
+      catch(error) {
+        alert(error)
+      }
     }
     else {
       try {
+        // get current item
+        let curitem = await AsyncStorage.getItem(key);
+        // set fav to false
+        let curobj = JSON.parse(curitem);
+        curobj['fav'] = false;
+        // store updated item
+        await AsyncStorage.setItem(
+          key,
+          JSON.stringify(curobj),
+        );
+        // remove item from asyncstorage
         await AsyncStorage.removeItem(key);
-        // return true;
-        // alert(dir)
       }
       catch(error) {
-        // return false;
         alert(error)
       }}
 };
@@ -147,7 +171,6 @@ function Simple() {
                 <List.Item title="Offering Faculty/Department" description={data.unit} left={props => <MaterialCommunityIcons name="offer" size={24} color="#8AC83F" />}/>
                 <List.Item title="HREC" description={data.hrec} left={props => <FontAwesome name="folder" size={24} color="#8AC83F" />}/>
                 <List.Item title="Contact" description={data.contact} left={props => <MaterialCommunityIcons name="contacts" size={24} color="#8AC83F" />}/>
-                {/* <List.Item title="Link" description={data.link} left={props => <MaterialCommunityIcons name="contacts" size={24} color="#8AC83F" />}/> */}
               </ImageBackground>
             </View>
           </TinderCard>
