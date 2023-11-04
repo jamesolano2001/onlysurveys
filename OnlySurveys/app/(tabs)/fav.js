@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { RefreshControl, ScrollView, StyleSheet } from 'react-native';
+import { Alert, RefreshControl, ScrollView, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from 'react-native-paper';
 
@@ -31,7 +31,16 @@ export default function FavScreen() {
     try {
       const keys = await AsyncStorage.getAllKeys();
       array = await AsyncStorage.multiGet(keys);
+      // loop through array
+      for (let i = 0; i < array.length; i++) {
+        // console.log(array[i][0])
+        if(array[i][0] == "EXPO_CONSTANTS_INSTALLATION_ID"){
+          array.splice(i, 1);
+        }
+    }
       setData(array);
+    console.log('array', array)
+
       // console.log('importData')
       // return array.map(req => JSON.parse(req)).forEach(console.log);
       
@@ -46,7 +55,22 @@ useEffect(() => {
     importData();
 }, [])
 
-
+removeAllFav = async () => {
+  try {
+      const keys = await AsyncStorage.getAllKeys();
+      await AsyncStorage.multiRemove(keys);
+    console.log('array', array)
+    array = [];
+    setData(array);
+    // array = await AsyncStorage.multiGet(keys);
+    // setData(array);
+    // console.log('importData')
+    // return array.map(req => JSON.parse(req)).forEach(console.log);
+    
+  } catch (error) {
+    console.error(error)
+  }
+}
 
   return (
     <View style={styles.container}>
@@ -55,10 +79,11 @@ useEffect(() => {
       <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" />
 			<View ></View>
       {data.map((item) => {
-        return <Button mode='contained' key={item} style={styles.buttons} buttonColor="#8AC83F" onClick={(item) => _retrieveData(item[0])}>{item[0]}</Button>
+        return <Button mode='contained' key={item} style={styles.buttons} buttonColor="#8AC83F" onPress={(item) => _retrieveData(item[0])}>{item[0]}</Button>
       })}
       {array.map(req => JSON.parse(req)).forEach(console.log)}
-      <Button mode='contained-tonal' buttonColor="#8AC83F" onClick={() => {importData("Experiment 5"); location.reload();}}>Refresh</Button>
+      <Button mode='contained-tonal' buttonColor="#8AC83F" onPress={() => {importData("Experiment 5");}}>Refresh</Button>
+      <Button mode='contained-tonal' color="red" onPress={() => {removeAllFav();}}>Clear</Button>
       {/* </ScrollView> */}
     </View>
   );
