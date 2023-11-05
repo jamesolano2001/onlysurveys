@@ -1,30 +1,21 @@
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import EditScreenInfo from '../../components/EditScreenInfo';
-import { Text, View } from '../../components/Themed';
+import ChatScreen from '../subtabs/allchat';
+import Chatroom from '../subtabs/chatroom';
 
-export default function ChatScreen() {
+const Stack = createNativeStackNavigator();
+
+export default function App() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Chat room </Text>
-      <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" />
-    </View>
+      <Stack.Navigator>
+        <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen 
+          name="Chatroom" 
+          component={Chatroom}
+          options={({ route }) => ({ title: route.params.chatNum })}
+        />
+      </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});

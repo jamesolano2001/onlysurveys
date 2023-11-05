@@ -17,6 +17,7 @@ const db = [
     contact: ['Mr AT', '13728943'],
     link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
     fav: false,
+    chat: true,
   },
   {
     name: 'Experiment 2',
@@ -29,6 +30,7 @@ const db = [
     contact: ['Mr Inno Wing', '10111213'],
     link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
     fav: false,
+    chat: true,
   },
   {
     name: 'Experiment 3',
@@ -41,6 +43,7 @@ const db = [
     contact: ['Mr J Lee', '56781234'],
     link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
     fav: false,
+    chat: true,
   },
   {
     name: 'Experiment 4',
@@ -53,6 +56,7 @@ const db = [
     contact: ['Ms qwerty', '09876543'],
     link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
     fav: false,
+    chat: true
   },
   {
     name: 'Experiment 5',
@@ -65,6 +69,7 @@ const db = [
     contact: ['Ms Chi Wah', '12345678'],
     link: 'https://forms.office.com/r/0h01kcnfMn?origin=lprLink',
     fav: false,
+    chat: true,
   }
 ]
 
