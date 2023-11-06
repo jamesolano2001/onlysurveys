@@ -1,4 +1,4 @@
-import { TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { Modal, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import EditScreenInfo from '../../components/EditScreenInfo';
 import { Text, View } from '../../components/Themed';
@@ -10,6 +10,8 @@ export default function SearchScreen() {
   let array = []
   const [data, setData] = useState(array);
   const [searchText, setSearchText] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
   const importData = async () => {
     try {
       const keys = await AsyncStorage.getAllKeys();
@@ -28,12 +30,7 @@ export default function SearchScreen() {
     }
   };
 
-  const ButtonCardLayout = () => {
-    const handleButtonPress = (buttonText) => {
-      // Handle button press logic
-      console.log(`${buttonText} button pressed`);
-    }
-  };
+
 
   useEffect(() => {
     var timer = setInterval(() => {
@@ -42,21 +39,26 @@ export default function SearchScreen() {
     return () => clearInterval(timer);
   }, [searchText]);
 
-  const renderButton = ({ item, index }) => (
-    <View style={[styles.buttonContainer, index % 2 !== 0 && styles.leftButtonContainer]}>
-      <Button
-        mode="contained"
-        buttonColor="#8AC83F"
-        key={item[0]}
-        style={styles.buttonCard}
-        onPress={() => {
-          // Handle button press logic
-        }}
-      >
-        {item[0]}
-      </Button>
-    </View>
-  );
+  const renderButton = ({ item, index }) => {
+    const itemData = JSON.parse(item[1]);
+
+    return (
+      <View style={[styles.buttonContainer, index % 2 !== 0 && styles.leftButtonContainer]}>
+        <Button
+          mode="contained"
+          buttonColor="#8AC83F"
+          key={item[0]}
+          style={styles.buttonCard}
+          onPress={() => {
+            setSelectedValue(itemData);
+            setModalVisible(true);
+          }}
+        >
+          {item[0]}
+        </Button>
+      </View>
+    );
+  };
 
 
 
@@ -84,6 +86,32 @@ export default function SearchScreen() {
         initialNumToRender={10}
         windowSize={5}
       />
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text>Name: {selectedValue.name}</Text>
+            <Text>Description: {selectedValue.description}</Text>
+            <Text>Eligibility: {selectedValue.eligibility}</Text>
+            <Text>Reward: {selectedValue.reward}</Text>
+
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => {
+                setModalVisible(false);
+              }}
+            >
+              <Text style={styles.modalButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -116,5 +144,27 @@ const styles = StyleSheet.create({
   },
   leftButtonContainer: {
     alignItems: 'flex-start',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 8,
+  },
+  modalButton: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#8AC83F',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
