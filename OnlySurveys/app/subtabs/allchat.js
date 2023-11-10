@@ -49,7 +49,7 @@ export default function ChatScreen({ navigation }) {
           <Button
             mode='contained' 
             key={item} style={styles.buttons} 
-            buttonColor={buttonColor}   // Replace 'buttonColor' with 'color'
+            buttonColor={buttonColor}
             onPress={() => {
                 navigation.navigate('Chatroom', {
                 chatNum: item[0],
