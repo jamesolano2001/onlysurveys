@@ -24,8 +24,9 @@ export default function ProfileScreen() {
         <Text>Username: {username}</Text>
         <Text>Email: {email}</Text>
       </View>
-      
-      <Button mode='contained' buttonColor="#8AC83F" onPress={showModal}>Edit info</Button>      
+      <View style={styles.profileBtn}>
+      <Button mode='contained' buttonColor="#8AC83F" onPress={showModal}>Edit info</Button> 
+      </View>
       {/* Modal for editing personal info */}
       <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
           <TextInput label="Username" style={styles.input} onChangeText={editUsername => setEditUsername(editUsername)} value={editUsername}/>
@@ -36,7 +37,9 @@ export default function ProfileScreen() {
           <Button mode='contained' buttonColor="grey" onPress={() => {setUsername(editUsername); hideModal();}}>Save</Button>
         </View>
       </Modal>
-
+      <View style={styles.profileBtn}>
+      <Button mode='contained' buttonColor="#8AC83F" onPress={() => navigation.navigate('subtabs/myreward')}>My Reward</Button>
+      </View>
     </View>
   );
 }
@@ -61,6 +64,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',   // make the cancel and save buttons on the same row
     marginTop: 10,
     justifyContent: 'space-between',
+  },
+  profileBtn: {
+    width: "50%",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 40,
+    backgroundColor: "#8AC83F",
   },
   input: {
     // width: 300,
