@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Alert, RefreshControl, ScrollView, StyleSheet } from 'react-native';
+import { Modal, Alert, RefreshControl, ScrollView, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from 'react-native-paper';
 
@@ -20,9 +20,11 @@ export default function FavScreen() {
   //     alert(error)
   //   }
   // };
-
+  const [modalVisible, setModalVisible] = React.useState(false);
   let array = []      // used for storing all data that is marked as "fav"
   const [data, setData] = React.useState(array);
+  const [dataPart, setDataPart] = React.useState({});
+  const [arrayPos, setArrayPos] = React.useState(0);
   importData = async () => {
     try {
       // get all keys in async storage
@@ -31,9 +33,9 @@ export default function FavScreen() {
       array = await AsyncStorage.multiGet(keys);
       // loop through array
       for (let i = 0; i < array.length; i++) {
-        console.log('array', array)
+        //console.log('array', array)
         // remove non-survey data
-        console.log('array[i][0]', array[i][0])
+        //console.log('array[i][0]', array[i][0])
         if(array[i][0] == "EXPO_CONSTANTS_INSTALLATION_ID"){
           array.splice(i, 1);
           break;
@@ -101,12 +103,62 @@ useEffect(() => {
       <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" />
 			<View ></View>
       {data.map((item) => {
-        return <Button mode='contained' key={item} style={styles.buttons} buttonColor="#8AC83F" >{item[0]}</Button>
+        return <Button mode='contained' 
+                        key={item} 
+                        style={styles.buttons} 
+                        buttonColor="#8AC83F" 
+                        onPress={() => {setModalVisible(true);
+                                        setArrayPos(data.indexOf(item));
+                                        setDataPart(JSON.parse(data[arrayPos][1]));
+                                        console.log('dataPart', dataPart)
+                                        }}
+                        >{item[0]}</Button>
       })}
       {array.map(req => JSON.parse(req)).forEach(console.log)}
       {/* <Button mode='contained-tonal' buttonColor="#8AC83F" onPress={() => {importData();setData(array)}}>Refresh</Button> */}
       {/* <Button mode='contained-tonal' color="red" onPress={() => {removeAllFav();}}>Clear</Button> */}
       {/* </ScrollView> */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.Title}>{dataPart['name']}</Text>
+            <Text style={styles.Text}>Procedures: {dataPart['procedures']}</Text>
+            <Text style={styles.Text}>Duration: {dataPart['duration']}</Text>
+            <Text style={styles.Text}>Risks: {dataPart['risks']}</Text>
+            <Text style={styles.Text}>Eligibility: {dataPart['eligibility']}</Text>
+            <Text style={styles.Text}>Rewards: {dataPart['rewards']}</Text>
+            <Text style={styles.Text}>HREC Reference Number: {dataPart['hrec']}</Text>
+            <Text style={styles.Text}>Contact: {dataPart['contact']}</Text>
+            <Button
+              mode='contained' 
+              key={dataPart} style={styles.modalButton} 
+              buttonColor={'#8AC83F'}
+              onPress={() => {
+                  navigation.navigate('Chatroom', {
+                  chatNum: dataPart.name,
+                });
+              }}
+              >
+              <Text style={styles.modalButtonText}>Chat</Text>  
+            </Button>
+            <Button
+              style={styles.modalButton}
+              onPress={() => {
+                setModalVisible(false);
+              }}
+            >
+              <Text style={styles.modalButtonText}>Close</Text>
+            </Button>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -132,4 +184,36 @@ const styles = StyleSheet.create({
 		borderColor: 'white',
 		
 	},
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    color: 'black'
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    color: 'black',
+    padding: 20,
+    borderRadius: 8,
+    border: '2px solid #8AC83F',
+  },
+  modalButton: {
+    marginTop: 10,
+    color: 'black',
+    backgroundColor: '#8AC83F',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  Text: {
+    color: 'black',
+  },
+  Title:{
+    color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: '30px',
+    alignSelf: 'center',
+  },
+
 });

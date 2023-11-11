@@ -6,6 +6,7 @@ import { TextInput, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+
 export default function SearchScreen() {
   let array = []
   const [data, setData] = useState(array);
@@ -96,11 +97,26 @@ export default function SearchScreen() {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text>Name: {selectedValue.name}</Text>
-            <Text>Description: {selectedValue.description}</Text>
-            <Text>Eligibility: {selectedValue.eligibility}</Text>
-            <Text>Reward: {selectedValue.reward}</Text>
-
+            <Text style={styles.title}>Name: {selectedValue.name}</Text>
+            <Text style={styles.Text}>Procedures: {selectedValue.procedures}</Text>
+            <Text style={styles.Text}>Duration: {selectedValue.duration}</Text>
+            <Text style={styles.Text}>Risks: {selectedValue.risks}</Text>
+            <Text style={styles.Text}>Eligibility: {selectedValue.eligibility}</Text>
+            <Text style={styles.Text}>Rewards: {selectedValue.reward}</Text>
+            <Text style={styles.Text}>HREC Reference Number: {selectedValue.hrec}</Text>
+            <Text style={styles.Text}>Contact: {selectedValue.contact}</Text>
+            <Button
+              mode='contained' 
+              key={selectedValue} style={styles.modalButton} 
+              buttonColor={'#8AC83F'}
+              onPress={() => {
+                  navigation.navigate('Chatroom', {
+                  chatNum: selectedValue.name,
+                });
+              }}
+              >
+              <Text style={styles.Text}>{selectedValue.name}</Text>  
+            </Button>
             <TouchableOpacity
               style={styles.modalButton}
               onPress={() => {
@@ -119,12 +135,18 @@ export default function SearchScreen() {
 
 
 const styles = StyleSheet.create({
+  Text:{
+    color: 'black',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   title: {
+    color: 'black',
+    marginBottom: '30px',
+    alignSelf: 'center',
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -134,6 +156,7 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   buttonContainer: {
+    color: 'black',
     paddingVertical: 16,
     paddingHorizontal: 8,
   },
@@ -143,6 +166,7 @@ const styles = StyleSheet.create({
     height: 100,
   },
   leftButtonContainer: {
+    color: 'black',
     alignItems: 'flex-start',
   },
   modalContainer: {
@@ -150,21 +174,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    color: 'black'
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
+    color: 'black',
     padding: 20,
     borderRadius: 8,
+    border: '2px solid #8AC83F',
   },
   modalButton: {
     marginTop: 20,
     padding: 10,
+    color: 'black',
     backgroundColor: '#8AC83F',
     borderRadius: 8,
     alignItems: 'center',
   },
   modalButtonText: {
-    color: '#fff',
+    color: 'black',
     fontWeight: 'bold',
   },
 });
