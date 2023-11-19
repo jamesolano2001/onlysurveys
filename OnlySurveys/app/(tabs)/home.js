@@ -6,7 +6,7 @@ import { List, Snackbar } from 'react-native-paper';
 import { MaterialIcons, MaterialCommunityIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
 
 
-const db = [
+export const db = [
   {
     name: 'Experiment 1',
     // img: require('../../assets/img/richard.jpg')
@@ -77,6 +77,7 @@ const db = [
 function Simple() {
   // const datas = db
   const [lastDirection, setLastDirection] = useState()
+
 
   const swiped = (direction, nameToDelete) => {
     console.log('removing: ' + nameToDelete)
@@ -154,6 +155,7 @@ function Simple() {
         );
         // remove item from asyncstorage
         await AsyncStorage.removeItem(key);
+        
       }
       catch(error) {
         alert(error)
