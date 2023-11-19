@@ -85,7 +85,7 @@ const db = [
     }
   ]
 
-export default function ProfileScreen() {
+export default function rewardScreen({ navigation }) {
   return (
     <View style={styles.container}>
         <Text style={styles.title} lightColor="black" darkColor="white">My Reward</Text>
