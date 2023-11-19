@@ -9,6 +9,9 @@ export default function Chatroom({ route, navigation }) {
   const sendMessage = () => {
     if (message.length > 0) {  // Don't send an empty message
       setMessages(prevMessages => [...prevMessages, message]);
+      setTimeout(() => {
+        setMessages(prevMessages => [...prevMessages, "Thank you for contacting us! We will review your message soon!"]);
+      }, 1000);  // 1000 milliseconds = 1 second
       setMessage('');  // Clear the input field
     }
   };

@@ -17,7 +17,7 @@ export default function App() {
         <Stack.Screen 
           name="Chatroom" 
           component={Chatroom}
-          // options={({ route }) => ({ title: route.params.chatNum })}
+          options={({ route }) => ({ title: route.params.chatNum })}
         />
 
       </Stack.Navigator>
