@@ -8,18 +8,6 @@ import { Text, View } from '../../components/Themed';
 
 export default function FavScreen({ navigation }) {
   
-  // _retrieveData = async (item) => {
-  //   try {
-  //     let value = await AsyncStorage.getItem(item);
-  //     if (value !== null) {
-  //       console.log(value);
-  //     }
-  //   } catch (error) {
-  //     // Error retrieving data
-  //     console.log('Error retrieving data')
-  //     alert(error)
-  //   }
-  // };
   const [modalVisible, setModalVisible] = React.useState(false);
   let array = []      // used for storing all data that is marked as "fav"
   const [data, setData] = React.useState(array);
@@ -33,9 +21,7 @@ export default function FavScreen({ navigation }) {
       array = await AsyncStorage.multiGet(keys);
       // loop through array
       for (let i = 0; i < array.length; i++) {
-        //console.log('array', array)
         // remove non-survey data
-        //console.log('array[i][0]', array[i][0])
         if(array[i][0] == "EXPO_CONSTANTS_INSTALLATION_ID"){
           array.splice(i, 1);
           break;
@@ -60,45 +46,8 @@ useEffect(() => {
     return () => clearInterval(timer);
 }, [])
 
-// removeAllFav = async () => {
-//   try {
-//     const keys = await AsyncStorage.getAllKeys();
-//     // await AsyncStorage.multiRemove(keys); // DO NOT USE THIS IN PRODUCTION, cuz would remove ALL data from async storage
-//     array = await AsyncStorage.multiGet(keys);
-//     for (let i = 0; i < array.length; i++) {
-//       // remove non-survey data
-//       if(array[i][0] == "EXPO_CONSTANTS_INSTALLATION_ID"){
-//         array.splice(i, 1);
-//         break;
-//       }
-//       let dataGot = JSON.parse(array[i][1])
-//       // if there is no "fav" or "fav" is false, remove from array
-//       if(dataGot.hasOwnProperty('fav') && dataGot.fav == true){
-//         dataGot['fav'] = false;
-//         console.log('dataGot', dataGot)
-//         await AsyncStorage.setItem(
-//           array[i][0],
-//           JSON.stringify(dataGot),
-//         );
-//       }
-//       // console.log('dataGot', dataGot)
-//     }
-//     array = [];
-//     setData(array);
-//     console.log('data', data)
-//       // array = await AsyncStorage.multiGet(keys);
-//       // setData(array);
-//       // console.log('importData')
-//       // return array.map(req => JSON.parse(req)).forEach(console.log);
-    
-//   } catch (error) {
-//     console.error(error)
-//   }
-// }
-
   return (
     <View style={styles.container}>
-      {/* <ScrollView style={{width: "100%", margin: 'auto',}}> */} {/* ScrollView width is somehow too small, need fix if use */}
       <Text style={styles.title}>Favourites</Text>
       <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" />
 			<View ></View>
@@ -112,12 +61,8 @@ useEffect(() => {
                                         setDataPart(JSON.parse(data[arrayPos][1]));
                                         console.log('dataPart', dataPart)
                                         }}
-                        >{item[0]}</Button>
+                        ><Text>{item[0]}</Text></Button>
       })}
-      {array.map(req => JSON.parse(req)).forEach(console.log)}
-      {/* <Button mode='contained-tonal' buttonColor="#8AC83F" onPress={() => {importData();setData(array)}}>Refresh</Button> */}
-      {/* <Button mode='contained-tonal' color="red" onPress={() => {removeAllFav();}}>Clear</Button> */}
-      {/* </ScrollView> */}
       <Modal
         animationType="slide"
         transparent={true}
