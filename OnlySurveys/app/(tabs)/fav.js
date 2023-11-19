@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Modal, Alert, RefreshControl, ScrollView, StyleSheet } from 'react-native';
+import { Modal, Alert, RefreshControl, ScrollView, StyleSheet, Linking } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from 'react-native-paper';
 
 import EditScreenInfo from '../../components/EditScreenInfo';
 import { Text, View } from '../../components/Themed';
+import Chatroom from '../subtabs/chatroom';
 
 export default function FavScreen() {
   
@@ -47,6 +48,7 @@ export default function FavScreen() {
           }
       }
       setData(array);
+      console.log('data', data)
     } catch (error) {
       console.error(error)
     }
@@ -140,8 +142,9 @@ useEffect(() => {
               mode='contained' 
               key={dataPart} style={styles.modalButton} 
               buttonColor={'#8AC83F'}
+              
               onPress={() => {
-                  navigation.navigate('Chatroom', {
+                  navigation.navigate('chat', {
                   chatNum: dataPart.name,
                 });
               }}
@@ -151,11 +154,20 @@ useEffect(() => {
             <Button
               style={styles.modalButton}
               onPress={() => {
+                navigation.navigate(dataPart.link)
+              }}
+            >
+              <Text style={styles.modalButtonText}>Enter Survey</Text>
+            </Button>
+            <Button
+              style={styles.modalButton}
+              onPress={() => {
                 setModalVisible(false);
               }}
             >
               <Text style={styles.modalButtonText}>Close</Text>
             </Button>
+
           </View>
         </View>
       </Modal>
