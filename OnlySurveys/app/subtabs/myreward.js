@@ -85,7 +85,7 @@ const db = [
     }
   ]
 
-export default function rewardScreen({ navigation }) {
+export default function RewardScreen({ navigation }) {
   return (
     <View style={styles.container}>
         <Text style={styles.title} lightColor="black" darkColor="white">My Reward</Text>

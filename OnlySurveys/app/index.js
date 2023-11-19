@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Button, TextInput } from "react-native-paper";
+import { Link, Stack } from 'expo-router';
 
 export default function App() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,12 @@ export default function App() {
       <Image style={styles.image} source={require("../assets/images/logo.png")} /> 
           <TextInput label="Username" style={styles.input} onChangeText={email => setEmail(email)} value={email}/>
           <TextInput label="Password" secureTextEntry={true} style={styles.input} onChangeText={password => setPassword(password)} value={password}/>
-      <Button mode='contained' buttonColor="#8AC83F" onPress={() => navigation.navigate('(tabs)/home')}>Login</Button>
+      {/* <a href="/(tabs)/home">
+        <Button mode='contained' buttonColor="#8AC83F">Login</Button>
+      </a> */}
+      <Link href="/(tabs)/home" style={styles.link}>
+          <Text style={styles.linkText}>Login</Text>
+      </Link>
     </View> 
   );
 }
