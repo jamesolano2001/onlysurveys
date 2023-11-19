@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-export default function SearchScreen() {
+export default function SearchScreen({navigation}) {
   let array = []
   const [data, setData] = useState(array);
   const [searchText, setSearchText] = useState('');
@@ -110,12 +110,13 @@ export default function SearchScreen() {
               key={selectedValue} style={styles.modalButton} 
               buttonColor={'#8AC83F'}
               onPress={() => {
+                  setModalVisible(false);
                   navigation.navigate('Chatroom', {
                   chatNum: selectedValue.name,
                 });
               }}
               >
-              <Text style={styles.Text}>{selectedValue.name}</Text>  
+              <Text style={styles.Text}>Chat</Text>  
             </Button>
             <TouchableOpacity
               style={styles.modalButton}
