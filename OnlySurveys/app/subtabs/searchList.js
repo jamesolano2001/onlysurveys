@@ -5,20 +5,18 @@ import { Text, View } from '../../components/Themed';
 import { TextInput, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
+import { db } from '../(tabs)/home.js';
 
 export default function SearchScreen() {
-  let array = []
-  const [data, setData] = useState(array);
+  const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
   const importData = async () => {
     try {
-      const keys = await AsyncStorage.getAllKeys();
-      array = await AsyncStorage.multiGet(keys);
-      // Filter the array based on the search text
-      const filteredArray = array.filter(item => item[0].toLowerCase().includes(searchText.toLowerCase()));
+      const filteredArray = db.filter(
+        item => item.name.toLowerCase().includes(searchText.toLowerCase())
+      );
       for (let i = 0; i < filteredArray.length; i++) {
         if (filteredArray[i][0] === "EXPO_CONSTANTS_INSTALLATION_ID") {
           filteredArray.splice(i, 1);
@@ -41,21 +39,22 @@ export default function SearchScreen() {
   }, [searchText]);
 
   const renderButton = ({ item, index }) => {
-    const itemData = JSON.parse(item[1]);
+    const itemData = item;
+    const key = `${itemData.id}-${index}`;
 
     return (
       <View style={[styles.buttonContainer, index % 2 !== 0 && styles.leftButtonContainer]}>
         <Button
           mode="contained"
           buttonColor="#8AC83F"
-          key={item[0]}
+          key={key}
           style={styles.buttonCard}
           onPress={() => {
             setSelectedValue(itemData);
             setModalVisible(true);
           }}
         >
-          {item[0]}
+          {itemData.name}
         </Button>
       </View>
     );
@@ -82,10 +81,8 @@ export default function SearchScreen() {
         data={data}
         renderItem={renderButton}
         numColumns={2}
-        keyExtractor={(item) => item[0]}
+        keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()}
         contentContainerStyle={styles.buttonContainer}
-        initialNumToRender={10}
-        windowSize={5}
       />
       <Modal
         animationType="slide"
@@ -106,16 +103,20 @@ export default function SearchScreen() {
             <Text style={styles.Text}>HREC Reference Number: {selectedValue.hrec}</Text>
             <Text style={styles.Text}>Contact: {selectedValue.contact}</Text>
             <Button
-              mode='contained' 
-              key={selectedValue} style={styles.modalButton} 
+              mode='contained'
+              key={selectedValue}
+              style={styles.modalButton}
               buttonColor={'#8AC83F'}
               onPress={() => {
-                  navigation.navigate('Chatroom', {
+                navigation.navigate('Chatroom', {
                   chatNum: selectedValue.name,
                 });
               }}
-              >
-              <Text style={styles.Text}>{selectedValue.name}</Text>  
+            >
+              <View>
+              <Text style={styles.Text}>{selectedValue.name}</Text>
+              </View>
+              
             </Button>
             <TouchableOpacity
               style={styles.modalButton}
@@ -135,7 +136,7 @@ export default function SearchScreen() {
 
 
 const styles = StyleSheet.create({
-  Text:{
+  Text: {
     color: 'black',
   },
   container: {
