@@ -1,4 +1,4 @@
-import { Modal, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { Modal, TouchableOpacity, StyleSheet, FlatList, Linking } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import EditScreenInfo from '../../components/EditScreenInfo';
 import { Text, View } from '../../components/Themed';
@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { db } from '../(tabs)/home.js';
 
-export default function SearchScreen({navigation}) {
+export default function SearchScreen({ navigation }) {
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -102,23 +102,31 @@ export default function SearchScreen({navigation}) {
             <Text style={styles.Text}>Rewards: {selectedValue.reward}</Text>
             <Text style={styles.Text}>HREC Reference Number: {selectedValue.hrec}</Text>
             <Text style={styles.Text}>Contact: {selectedValue.contact}</Text>
-            <Button
-              mode='contained'
-              key={selectedValue}
+
+            <TouchableOpacity
               style={styles.modalButton}
-              buttonColor={'#8AC83F'}
+              onPress={() => {
+                setModalVisible(false);
+                Linking.openURL(selectedValue.link);
+              }}
+            >
+              <Text style={styles.modalButtonText}>Go to Link</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={[styles.modalButton, { backgroundColor: '#8AC83F' }]}
               onPress={() => {
                 setModalVisible(false);
                 navigation.navigate('Chatroom', {
-                  chatNum: selectedValue.name,
+                  chatNum: selectedValue.name+" Chat",
                 });
               }}
             >
               <View>
-              <Text style={styles.modalButtonText}>{selectedValue.name}</Text>
+                <Text style={styles.modalButtonText}>{selectedValue.name} Chat</Text>
               </View>
-              
-            </Button>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.modalButton}
               onPress={() => {
@@ -139,7 +147,7 @@ export default function SearchScreen({navigation}) {
 const styles = StyleSheet.create({
   Text: {
     color: 'black',
-    
+
   },
   container: {
     flex: 1,
