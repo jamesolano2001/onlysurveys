@@ -114,7 +114,7 @@ export default function SearchScreen() {
               }}
             >
               <View>
-              <Text style={styles.Text}>{selectedValue.name}</Text>
+              <Text style={styles.modalButtonText}>{selectedValue.name}</Text>
               </View>
               
             </Button>
@@ -138,6 +138,7 @@ export default function SearchScreen() {
 const styles = StyleSheet.create({
   Text: {
     color: 'black',
+    
   },
   container: {
     flex: 1,
@@ -195,5 +196,6 @@ const styles = StyleSheet.create({
   modalButtonText: {
     color: 'black',
     fontWeight: 'bold',
+    backgroundColor: '#8AC83F',
   },
 });
