@@ -1,4 +1,4 @@
-import { StyleSheet, Image,Platform, ImagePickerIOS, ImagePickerAndroid } from 'react-native';
+import { StyleSheet, Image,Platform,    ImagePickerIOS, ImagePickerAndroid } from 'react-native';
 import React, { useState } from 'react';
 import { Button, Modal, TextInput } from 'react-native-paper';
 
@@ -18,27 +18,7 @@ export default function ProfileScreen({ navigation }) {
   const containerStyle = { backgroundColor: "#8AC83F", padding: 20 };
 
 const changeProfilePicture = () => {
-  if (Platform.OS === 'ios') {
-    ImagePickerIOS.openSelectDialog({}, (imageUri) => {
-      if (imageUri) {
-        setProfilePicture(imageUri);
-      }
-    }, () => {
-      console.log('Cancelled');
-    });
-  } else if (Platform.OS === 'android') {
-    ImagePickerAndroid.openPicker({
-      mediaType: 'photo',
-    }).then((result) => {
-      if (!result.cancelled) {
-        setProfilePicture(result.uri);
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
-  } else {
-    console.log('Image picker not supported on this platform');
-  }
+  //To be added
 };
 
   return (
