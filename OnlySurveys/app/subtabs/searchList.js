@@ -1,24 +1,22 @@
-import { Modal, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { Modal, TouchableOpacity, StyleSheet, FlatList, Linking } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import EditScreenInfo from '../../components/EditScreenInfo';
 import { Text, View } from '../../components/Themed';
 import { TextInput, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { db } from '../(tabs)/home.js';
 
-
-export default function SearchScreen() {
-  let array = []
-  const [data, setData] = useState(array);
+export default function SearchScreen({ navigation }) {
+  const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
   const importData = async () => {
     try {
-      const keys = await AsyncStorage.getAllKeys();
-      array = await AsyncStorage.multiGet(keys);
-      // Filter the array based on the search text
-      const filteredArray = array.filter(item => item[0].toLowerCase().includes(searchText.toLowerCase()));
+      const filteredArray = db.filter(
+        item => item.name.toLowerCase().includes(searchText.toLowerCase())
+      );
       for (let i = 0; i < filteredArray.length; i++) {
         if (filteredArray[i][0] === "EXPO_CONSTANTS_INSTALLATION_ID") {
           filteredArray.splice(i, 1);
@@ -41,21 +39,22 @@ export default function SearchScreen() {
   }, [searchText]);
 
   const renderButton = ({ item, index }) => {
-    const itemData = JSON.parse(item[1]);
+    const itemData = item;
+    const key = `${itemData.id}-${index}`;
 
     return (
       <View style={[styles.buttonContainer, index % 2 !== 0 && styles.leftButtonContainer]}>
         <Button
           mode="contained"
           buttonColor="#8AC83F"
-          key={item[0]}
+          key={key}
           style={styles.buttonCard}
           onPress={() => {
             setSelectedValue(itemData);
             setModalVisible(true);
           }}
         >
-          {item[0]}
+          {itemData.name}
         </Button>
       </View>
     );
@@ -82,10 +81,8 @@ export default function SearchScreen() {
         data={data}
         renderItem={renderButton}
         numColumns={2}
-        keyExtractor={(item) => item[0]}
+        keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()}
         contentContainerStyle={styles.buttonContainer}
-        initialNumToRender={10}
-        windowSize={5}
       />
       <Modal
         animationType="slide"
@@ -105,18 +102,31 @@ export default function SearchScreen() {
             <Text style={styles.Text}>Rewards: {selectedValue.reward}</Text>
             <Text style={styles.Text}>HREC Reference Number: {selectedValue.hrec}</Text>
             <Text style={styles.Text}>Contact: {selectedValue.contact}</Text>
-            <Button
-              mode='contained' 
-              key={selectedValue} style={styles.modalButton} 
-              buttonColor={'#8AC83F'}
+
+            <TouchableOpacity
+              style={styles.modalButton}
               onPress={() => {
-                  navigation.navigate('Chatroom', {
-                  chatNum: selectedValue.name,
+                setModalVisible(false);
+                Linking.openURL(selectedValue.link);
+              }}
+            >
+              <Text style={styles.modalButtonText}>Go to Link</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={[styles.modalButton, { backgroundColor: '#8AC83F' }]}
+              onPress={() => {
+                setModalVisible(false);
+                navigation.navigate('Chatroom', {
+                  chatNum: selectedValue.name+" Chat",
                 });
               }}
-              >
-              <Text style={styles.Text}>{selectedValue.name}</Text>  
-            </Button>
+            >
+              <View>
+                <Text style={styles.modalButtonText}>{selectedValue.name} Chat</Text>
+              </View>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.modalButton}
               onPress={() => {
@@ -135,8 +145,9 @@ export default function SearchScreen() {
 
 
 const styles = StyleSheet.create({
-  Text:{
+  Text: {
     color: 'black',
+
   },
   container: {
     flex: 1,
@@ -194,5 +205,6 @@ const styles = StyleSheet.create({
   modalButtonText: {
     color: 'black',
     fontWeight: 'bold',
+    backgroundColor: '#8AC83F',
   },
 });

@@ -1,20 +1,28 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { Button, Modal, TextInput } from 'react-native-paper';
 
-import profile from '../subtabs/profileSummary';
-import myreward from '../subtabs/myreward';
+import EditScreenInfo from '../../components/EditScreenInfo';
+import { Text, View } from '../../components/Themed';
 
-const Stack = createNativeStackNavigator();
+export default function ProfileScreen({ navigation }) {
+  const [username, setUsername] = useState();
+  const [editUsername, setEditUsername] = useState();
+  var email = "abc@connect.hku.hk"
 
-export default function App() {
+  // var for modal
+  const [visible, setVisible] = React.useState(false);
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = {backgroundColor: "#8AC83F", padding: 20};
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My Profile</Text>
+      <Text style={styles.title}>Profile Page</Text>
       <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" />
       <View style={{ alignItems: 'flex-start'}}>
-        <Text style={styles.infoLabel}>Username: <Text style={styles.infoText}>{username}</Text></Text>
-        <Text style={styles.infoLabel}>Email: <Text style={styles.infoText}>{email}</Text></Text>
+        <Text>Username: {username}</Text>
+        <Text>Email: {email}</Text>
       </View>
       <View style={styles.profileBtn}>
       <Button mode='contained' buttonColor="#8AC83F" onPress={showModal}>Edit info</Button> 
@@ -30,7 +38,7 @@ export default function App() {
         </View>
       </Modal>
       <View style={styles.profileBtn}>
-      <Button mode='contained' buttonColor="#8AC83F" onPress={() => navigation.navigate('subtabs/myreward')}>My Reward</Button>
+      <Button mode='contained' buttonColor="#8AC83F" onPress={() => navigation.navigate('My Rewards')}>My Reward</Button>
       </View>
     </View>
   );
@@ -67,18 +75,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#8AC83F",
   },
   input: {
+    // width: 300,
+    // height: 50,
     margin: 10,
     backgroundColor: "white",
-  },
-  infoLabel: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#8AC83F',
-    margin: '5px',
-  },
-  infoText: {
-    fontSize: 16,
-    fontWeight: 'normal',
-    color: '#000000',
   },
 });
