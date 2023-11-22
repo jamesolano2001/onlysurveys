@@ -18,11 +18,11 @@ export default function ProfileScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Profile Page</Text>
+      <Text style={styles.title}>My Profile</Text>
       <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" />
       <View style={{ alignItems: 'flex-start'}}>
-        <Text>Username: {username}</Text>
-        <Text>Email: {email}</Text>
+        <Text style={styles.infoLabel}>Username: <Text style={styles.infoText}>{username}</Text></Text>
+        <Text style={styles.infoLabel}>Email: <Text style={styles.infoText}>{email}</Text></Text>
       </View>
       <View style={styles.profileBtn}>
       <Button mode='contained' buttonColor="#8AC83F" onPress={showModal}>Edit info</Button> 
@@ -75,9 +75,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#8AC83F",
   },
   input: {
-    // width: 300,
-    // height: 50,
     margin: 10,
     backgroundColor: "white",
+  },
+  infoLabel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#8AC83F',
+    margin: '5px',
+  },
+  infoText: {
+    fontSize: 16,
+    fontWeight: 'normal',
+    color: '#000000',
   },
 });
