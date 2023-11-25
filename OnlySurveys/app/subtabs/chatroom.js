@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 
 export default function Chatroom({ route, navigation }) {
   const { chatNum } = route.params;
   const [message, setMessage] = useState('');
+  const [hasUserSentMessage, setHasUserSentMessage] = useState(false);
   const [messages, setMessages] = useState([
     { text: "Hello, I heard you're conducting a research on mobile applications. I'm interested to participate.", timestamp: '09:00 AM', date: new Date(2023, 10, 18).toLocaleDateString(), sender: 'self' },
     { text: "Hi there! Yes, we are. Your participation would be greatly appreciated. The survey is about user experiences with mobile applications. Shall we get started?", timestamp: '09:15 AM', date: new Date(2023, 10, 18).toLocaleDateString(), sender: 'other' },
@@ -12,11 +13,26 @@ export default function Chatroom({ route, navigation }) {
     { text: "I primarily use Android.", timestamp: '10:00 AM', date: new Date(2023, 10, 19).toLocaleDateString(), sender: 'self' },
   ]);
 
+  useEffect(() => {
+    if (hasUserSentMessage && messages.length > 0 && messages[messages.length - 1].sender === 'self') {
+      const timer = setTimeout(() => {
+        const now = new Date();
+        const timestamp = now.toLocaleString([], { hour: '2-digit', minute: '2-digit' });
+        const date = now.toLocaleDateString();
+        setMessages(prevMessages => [...prevMessages, { text: "Hello! The researcher is unavailable at the moment, please wait for them to reply", timestamp, date, sender: 'other' }]);
+      }, 1000);  // Auto-reply delay
+
+      // Clean up function
+      return () => clearTimeout(timer);
+    }
+  }, [messages, hasUserSentMessage]);
+
   const sendMessage = () => {
     if (message.length > 0) {  // Don't send an empty message
       const now = new Date();
       const timestamp = now.toLocaleString([], { hour: '2-digit', minute: '2-digit' });
       const date = now.toLocaleDateString();
+      setHasUserSentMessage(true);
       setMessages(prevMessages => [...prevMessages, { text: message, timestamp, date, sender: 'self' }]);
       setMessage('');  // Clear the input field
     }
@@ -56,11 +72,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
   separator: {
     marginVertical: 30,
     height: 1,
@@ -81,19 +92,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
-    backgroundColor: '#8AC83F',
-    padding: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 15,
-    maxWidth: '70%',
-    alignSelf: 'flex-start',
-    marginLeft: 20,
-  },
-  receivedMessageContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
     backgroundColor: '#EDFFD2',
     padding: 10,
     paddingLeft: 15,
@@ -103,6 +101,19 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginRight: 20,
   },
+  receivedMessageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    backgroundColor: '#8AC83F',
+    padding: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 15,
+    maxWidth: '70%',
+    alignSelf: 'flex-start',
+    marginLeft: 20,
+  },
   message: {
     fontSize: 16,
     marginRight: 10,
@@ -110,20 +121,18 @@ const styles = StyleSheet.create({
   timestamp: {
     fontSize: 12,
     color: '#666',
-    display: 'flex',
-    flexDirection: 'row',
-    minWidth: 'fit-content',
   },
   inputContainer: {
     flexDirection: 'row',
-    margin: 10,
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#F2F2F2',
   },
   input: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: '#fff',
     marginRight: 10,
+    backgroundColor: '#FFFFFF',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 25,
   },
 });
