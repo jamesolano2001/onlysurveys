@@ -65,7 +65,7 @@ export default function SearchScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Search</Text>
+      {/* <Text style={styles.title}>Search</Text> */}
       <TextInput
         label="Search Survey"
         value={searchText}

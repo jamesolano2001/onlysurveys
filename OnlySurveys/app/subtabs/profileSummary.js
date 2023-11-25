@@ -23,7 +23,7 @@ const changeProfilePicture = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Profile Page</Text>
+      {/* <Text style={styles.title}>Profile Page</Text> */}
       <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" />
       <View style={styles.profilePictureContainer}>
         <Image source={{ uri: profilePicture }} style={styles.profilePicture} />
