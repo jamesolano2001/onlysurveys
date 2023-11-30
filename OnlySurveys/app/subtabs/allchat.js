@@ -41,7 +41,7 @@ export default function ChatScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Chat room </Text>
+      {/* <Text style={styles.title}>Chat room </Text> */}
       <View style={styles.separator} lightColor="#8AC83F" darkColor="#8AC83F" />
       {data.map((item, index) => {
         const buttonColor = index % 2 === 0 ? 'rgba(138, 200, 63, 0.3)' : 'rgba(0, 0, 0 )';

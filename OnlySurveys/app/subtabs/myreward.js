@@ -64,7 +64,7 @@ const db = [
 export default function RewardScreen({ navigation }) {
   return (
     <View style={styles.container}>
-        <Text style={styles.title} lightColor="black" darkColor="white">My Reward</Text>
+        {/* <Text style={styles.title} lightColor="black" darkColor="white">My Reward</Text> */}
         <View style = {styles.balanceContainer}>
             <Text style = {styles.availableText}>Available Cash Balance</Text>
             <Text style = {styles.balanceText}>$120</Text>
