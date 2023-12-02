@@ -11,8 +11,8 @@ npm i && yarn i
 ```bash
 npm run web
 ```
-    then scan qr code with your phone, which redirects to Expo
-    or check out web version at http://localhost:8081 
+then scan qr code with your phone, which redirects to Expo
+or check out web version at http://localhost:8081 
 
 Notable packages used:
 1. [react-tinder-card](https://github.com/3DJakob/react-tinder-card)
