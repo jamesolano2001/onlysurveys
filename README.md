@@ -1,12 +1,18 @@
 # OnlySurveys
 
 1. Download nodejs
-2. Goto repo cmd, run: npm i
-3. run: yarn i
-4. Download Expo App on phone
-5. Run: npm run web
-    then scan qr code with your phone
-6. If none can use web with npm run web
+2. Go to repo cmd, run: 
+```bash
+cd OnlySurveys 
+npm i && yarn i
+```
+3. Download Expo App on phone
+4. Run: 
+```bash
+npm run web
+```
+    then scan qr code with your phone, which redirects to Expo
+    or check out web version at http://localhost:8081 
 
-Packages used:
+Notable packages used:
 1. [react-tinder-card](https://github.com/3DJakob/react-tinder-card)
